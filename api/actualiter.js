@@ -15,8 +15,6 @@ const dbConfig = {
         rejectUnauthorized: false,
     },
     
-    // Crucial pour résoudre l'erreur ENETUNREACH (IPv6) sur Vercel
-    family: 4, 
 };
 
 /**
