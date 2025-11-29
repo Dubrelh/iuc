@@ -1,4 +1,4 @@
-// api/actualiter.js
+// /api/actualiter.js
 
 const { Client } = require('pg');
 
@@ -6,7 +6,8 @@ const { Client } = require('pg');
 // 🔑 Configuration de la Connexion PostgreSQL (Client DB)
 // ------------------------------------------------------------------
 const dbConfig = {
-    // Vercel lira SUPABASE_POSTGRES_URI depuis ses variables d'environnement
+    // Vercel lira SUPABASE_POSTGRES_URI depuis ses variables d'environnement.
+    // Vous avez déjà défini cette variable dans votre .env, assurez-vous de la définir sur Vercel.
     connectionString: process.env.SUPABASE_POSTGRES_URI, 
     
     // Crucial pour Supabase : Ignorer le rejet des certificats SSL
@@ -14,14 +15,13 @@ const dbConfig = {
         rejectUnauthorized: false,
     },
     
-    // Forcer l'IPv4 pour résoudre l'erreur ENETUNREACH
+    // Crucial pour résoudre l'erreur ENETUNREACH (IPv6) sur Vercel
     family: 4, 
 };
 
 /**
  * Exécute une requête SQL avec le client pg.
- * @param {string} sqlQuery - La requête SQL à exécuter.
- * @param {Array} params - Les paramètres pour sécuriser la requête.
+ * Gère la connexion et la déconnexion automatiques (essentiel en Serverless).
  */
 async function executeQuery(sqlQuery, params = []) {
     const client = new Client(dbConfig); 
@@ -33,30 +33,28 @@ async function executeQuery(sqlQuery, params = []) {
         console.error("Erreur de base de données:", err.message);
         throw new Error(`DB Error: ${err.message}`);
     } finally {
-        // ESSENTIEL pour Serverless: fermer la connexion après chaque requête.
         if (client) {
-            await client.end(); 
+            await client.end(); // Fermeture de la connexion après l'exécution.
         }
     }
 }
 
 /**
- * Fonction Serverless principale (exportée par Vercel)
- * @param {object} req - Objet requête HTTP
- * @param {object} res - Objet réponse HTTP
+ * Fonction Serverless principale pour la route /api/actualiter
+ * C'est la fonction que Vercel exporte et exécute à chaque requête.
  */
 module.exports = async (req, res) => {
     
     const url = new URL(req.url, `http://${req.headers.host}`);
     
-    // Configuration des Headers CORS
+    // Configuration des Headers CORS (important pour le frontend)
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     // Gestion des requêtes OPTIONS (Pré-vol CORS)
     if (req.method === 'OPTIONS') {
-        res.status(204).end(); // Utilisez res.status().end() pour Vercel
+        res.status(204).end(); 
         return;
     }
 
@@ -79,17 +77,19 @@ module.exports = async (req, res) => {
                 
                 result = await executeQuery(sql, params);
                 
-                res.status(200).json(result.rows); // Utilisation de res.status().json() pour Vercel
+                // Vercel utilise res.status().json()
+                res.status(200).json(result.rows); 
                 break;
             }
 
             case 'POST': {
                 // ------------------ CREATE (Créer) ------------------
-                const body = req.body; // Vercel parse souvent le body automatiquement
-                const { titre, description, photo } = body || {};
+                // Vercel/Node gère souvent le corps automatiquement si le Content-Type est JSON
+                const body = req.body || {};
+                const { titre, description, photo } = body;
                 
                 if (!titre || !description) {
-                    res.status(400); throw new Error('Titre et description sont requis.');
+                    return res.status(400).json({ message: 'Titre et description sont requis.' });
                 }
 
                 const sqlCreate = `
@@ -110,7 +110,7 @@ module.exports = async (req, res) => {
                 // ------------------ DELETE (Supprimer) ------------------
                 const deleteId = url.searchParams.get('id'); 
                 if (!deleteId) {
-                    res.status(400); throw new Error('ID manquant pour la suppression.');
+                    return res.status(400).json({ message: 'ID manquant pour la suppression.' });
                 }
                 
                 const sqlDelete = 'DELETE FROM actualiter WHERE id = $1 RETURNING id;';
@@ -129,7 +129,7 @@ module.exports = async (req, res) => {
         }
 
     } catch (err) {
-        // Gestion des erreurs
+        // Gestion des erreurs internes ou DB
         const statusCode = res.statusCode && res.statusCode < 500 ? res.statusCode : 500;
         res.status(statusCode).json({ 
             error: 'Erreur Serveur Interne', 
