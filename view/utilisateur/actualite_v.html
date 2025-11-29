@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IUC - Actualités & Événements</title>
+    <link rel="stylesheet" href="../../assets/CSC/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* CSS SPÉCIFIQUE À LA PAGE ACTUALITÉS (À DÉPLACER DANS styles.css) */
+        
+        /* Conteneur principal de la page */
+        .actualites-main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px; /* Actualités à gauche, Événements à droite */
+            gap: 30px;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Colonnes */
+        .actualites-feed, .evenements-sidebar {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .actualites-feed h1, .evenements-sidebar h2 {
+            color: #c0392b; /* Rouge IUC */
+            border-bottom: 2px solid #f3f3f3;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        /* Filtres et Catégories */
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-buttons button {
+            background-color: #f7f7f7;
+            color: #555;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+
+        .filter-buttons button.active, 
+        .filter-buttons button:hover {
+            background-color: #c0392b; /* Rouge IUC */
+            color: white;
+            border-color: #c0392b;
+        }
+
+        /* Style des cartes d'Actualité (générées par JS) */
+        #actualites-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .actualite-card {
+            display: flex;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .actualite-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .actualite-image {
+            flex: 0 0 150px; /* Largeur fixe pour l'image */
+        }
+
+        .actualite-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .actualite-content {
+            flex: 1;
+            padding: 15px;
+        }
+
+        .actualite-content h3 {
+            color: #000;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.2em;
+        }
+        
+        .actualite-date {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .actualite-content p {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .actualite-content a.read-more {
+            color: #f39c12; /* Jaune IUC */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        /* Style des cartes Événement */
+        .evenement-card {
+            display: flex;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-left: 5px solid #f39c12; /* Bordure jaune */
+        }
+
+        .evenement-date-box {
+            flex: 0 0 70px;
+            background-color: #c0392b; /* Rouge IUC */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .evenement-date-box .day {
+            font-size: 1.8em;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .evenement-date-box .month {
+            font-size: 0.8em;
+            text-transform: uppercase;
+        }
+
+        .evenement-info {
+            padding: 10px 15px;
+            flex: 1;
+        }
+
+        .evenement-info h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .evenement-info p {
+            margin: 0;
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+        
+        .subscribe-box {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+        
+        .subscribe-box button {
+            background-color: #f39c12; /* Jaune IUC */
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .subscribe-box button:hover {
+            background-color: #e67e22;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .actualites-main-content {
+                grid-template-columns: 1fr; /* Passage à une seule colonne */
+            }
+            .actualite-card {
+                flex-direction: column; /* Image au-dessus du texte sur mobile */
+            }
+            .actualite-image {
+                flex: 0 0 auto;
+                height: 200px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+            <img src="/assets/image/logo.png" alt="Logo IUC" class="logo">
+            <span class="slogan">Former l’homme dans toute sa globalité</span>
+        </div>
+        
+        <div class="search-profile">
+            <div class="search-bar">
+                <input type="text" placeholder="Rechercher">
+                <button aria-label="Rechercher"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="profile">
+                <img src="https://via.placeholder.com/30x30/7f8c8d/FFFFFF?text=A" alt="Avatar" class="avatar">
+            </div>
+            <button class="hamburger-menu" aria-label="Menu de navigation" style="display:none;"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <nav class="accueil-main-nav-bar">
+        <ul class="accueil-nav-links-list">
+            <li><a href="../../index.html">Accueil</a></li>
+            <li><a href="campus_v.html">Campus</a></li>
+            <li><a href="actualite_v.html" class="active">Actualités</a></li>
+            <li><a href="assistant_v.html">Assistant Virtuel</a></li>
+            <li><a href="conctact_v.html">Contacts</a></li>
+            <li><a href="#">S'orienter</a></li>
+        </ul>
+    </nav>
+
+    <main class="actualites-main-content">
+        
+        <section class="actualites-feed">
+            <h1>Actualités & Événements</h1>
+            
+            <div id="actualites-container">
+                <p>Chargement des actualités...</p>
+            </div>
+
+        </section>
+
+        <aside class="evenements-sidebar">
+            <h2>Événements à Venir</h2>
+            
+            <div class="evenements-list">
+                
+                <div class="evenement-card">
+                    <div class="evenement-date-box">
+                        <span class="day">15</span>
+                        <span class="month">OCT</span>
+                    </div>
+                    <div class="evenement-info">
+                        <h3>Amphithéâtre Inaugural</h3>
+                        <p><i class="fas fa-clock"></i> 19:00</p>
+                    </div>
+                </div>
+
+                <div class="evenement-card">
+                    <div class="evenement-date-box">
+                        <span class="day">18</span>
+                        <span class="month">OCT</span>
+                    </div>
+                    <div class="evenement-info">
+                        <h3>Soutenance de Thèses</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Logbessou</p>
+                    </div>
+                </div>
+                
+                <div class="evenement-card">
+                    <div class="evenement-date-box">
+                        <span class="day">02</span>
+                        <span class="month">NOV</span>
+                    </div>
+                    <div class="evenement-info">
+                        <h3>Forum des Carrières Tech</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Campus Akwa - 09:00</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="subscribe-box">
+                <button>S'abonner aux alertes <i class="fas fa-bell"></i></button>
+            </div>
+        </aside>
+
+    </main>
+    <footer class="accueil-footer">
+        <div class="accueil-footer-columns">
+            <div>
+                <h4>À Propos de l'IUC</h4>
+                <ul>
+                    <li><a href="#">Présentation institutionnelle</a></li>
+                    <li><a href="#">Règlement intérieur</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Services Étudiants</h4>
+                <ul>
+                    <li><a href="https://myiuc.com" target="_blank">Portail MyIUC</a></li>
+                    <li><a href="#">Service Comptabilité</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Nous Suivre</h4>
+                <ul>
+                    <li><a href="#">Facebook IUC</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Mentions Légales</h4>
+                <ul>
+                    <li><a href="#">Politique de Confidentialité</a></li>
+                    <li><a href="#">Termes d'utilisation</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="accueil-copyright">
+            &copy; 2024 IUC. Tous droits réservés
+        </div>
+    </footer>
+
+    <script>
+        // ⚠️ REMPLACER par l'URL de base de votre projet Vercel
+        const API_BASE_URL = "https://orientation-iuc.vercel.app"; 
+
+        /**
+         * Affiche les actualités dans le conteneur HTML.
+         * Ce code est basé sur la structure actualite-card définie dans le CSS.
+         * @param {Array} actualites - Le tableau des actualités à afficher.
+         */
+        function afficherActualites(actualites) {
+            const container = document.getElementById('actualites-container');
+            container.innerHTML = ''; // Vider le conteneur
+
+            if (actualites.length === 0) {
+                container.innerHTML = '<p style="text-align: center;">Aucune actualité n\'est disponible pour le moment.</p>';
+                return;
+            }
+
+            actualites.forEach(actu => {
+                const dateObj = new Date(actu.date_pub);
+                const dateFormatee = dateObj.toLocaleDateString('fr-FR', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                
+                const actualiteElement = document.createElement('div');
+                actualiteElement.className = 'actualite-card';
+                
+                // Utilisation de l'URL de Supabase Storage pour la source de l'image (actu.photo)
+                actualiteElement.innerHTML = `
+                    <div class="actualite-image">
+                        <img src="${actu.photo || 'https://via.placeholder.com/150x100?text=IUC'}" alt="${actu.titre}">
+                    </div>
+                    <div class="actualite-content">
+                        <h3>${actu.titre}</h3>
+                        <p class="actualite-date"><i class="far fa-calendar-alt"></i> Publié le ${dateFormatee}</p>
+                        <p>${actu.description.substring(0, 120)}${actu.description.length > 120 ? '...' : ''}</p>
+                        <a href="actualite_detail.html?id=${actu.id}" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `;
+                
+                container.appendChild(actualiteElement);
+            });
+        }
+
+        /**
+         * Récupère toutes les actualités depuis l'API Serverless.
+         */
+        async function fetchActualites() {
+            const container = document.getElementById('actualites-container');
+            container.innerHTML = '<p style="text-align: center;"><i class="fas fa-sync fa-spin"></i> Chargement des actualités...</p>';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/actualiter`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+
+                const data = await response.json(); 
+                
+                afficherActualites(data); 
+
+            } catch (error) {
+                console.error("❌ Échec de la récupération des actualités :", error.message);
+                container.innerHTML = 
+                    `<p style="color: red; text-align: center;">Erreur de connexion aux serveurs. Veuillez réessayer plus tard.</p>`;
+            }
+        }
+
+        // Démarrer la récupération des données au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchActualites();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* styles.css */
+:root{
+    --primary: #1f6f4a; /* vert principal */
+    --muted: #6c757d;
+    --card-bg: #ffffff;
+    --page-bg: #f3f4f6;
+    --accent: #2fb06f;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body{
+    background: var(--page-bg);
+    color: #222;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  
+  /* NAV */
+  .navbar-brand img{ border-radius:6px; object-fit:cover; }
+  
+  /* CONTACT CARD */
+  .contact-card {
+    background: linear-gradient(180deg, #fff, #fbfbfb);
+    border-radius: 12px;
+    transition: transform .18s ease, box-shadow .18s ease;
+    overflow: hidden;
+  }
+  .contact-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(15,23,42,0.08);
+  }
+  .thumb{
+    object-fit:cover;
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(12,40,30,0.04);
+  }
+  
+  /* FORM CARD */
+  .card {
+    border: none;
+    border-radius: 14px;
+    background: var(--card-bg);
+  }
+  .card .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(47,176,111,0.12);
+    border-color: var(--accent);
+  }
+  
+  /* submit button style */
+  .btn-success{
+    background: linear-gradient(90deg,var(--accent),#1fa15c);
+    border: none;
+    box-shadow: 0 8px 20px rgba(31,161,92,0.12);
+  }
+  .btn-success:hover{
+    transform: translateY(-2px);
+  }
+  
+  /* small responsive tweaks */
+  @media (max-width: 991px){
+    .contact-card{ flex-direction: row; }
+  }
+  
+  /* Fade-up animation helper */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .fade-up.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* subtle footer */
+  footer { background: transparent; }

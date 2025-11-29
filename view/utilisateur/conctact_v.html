@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IUC - Contacts & Réclamations</title>
+    <link rel="stylesheet" href="../../assets/CSC/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="body">
+
+    <header class="header">
+        <div class="logo-container">
+            <img src="assets/image/logo.png" alt="Logo IUC" class="logo">
+            <span class="slogan">Former l’homme dans toute sa globalité</span>
+        </div>
+        
+        <div class="search-profile">
+            <div class="search-bar">
+                <input type="text" placeholder="Search">
+                <button aria-label="Rechercher"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="profile">
+                <img src="https://picsum.photos/200/140" alt="Avatar" class="avatar">
+            </div>
+            <button class="hamburger-menu" aria-label="Menu de navigation" style="display:none;"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <nav class="accueil-main-nav-bar">
+        <ul class="accueil-nav-links-list">
+            <li><a href="../../index.html">Accueil</a></li>
+            <li><a href="campus_v.html">Campus</a></li>
+            <li><a href="actualite_v.html" class="active">Actualités</a></li>
+            <li><a href="assistant_v.html">Assistant Virtuel</a></li>
+            <li><a href="conctact_v.html">Contacts</a></li>
+            <li><a href="#">S'orienter</a></li>
+        </ul>
+    </nav>
+    
+    <main class="contact-page-container">
+        
+        <h1 class="contact-page-title">Contacts & Réclamations</h1>
+        
+        <div class="contact-content-wrapper">
+            
+            <section class="contact-contacts-column">
+                <h2>Contacts Utiles</h2>
+
+                <div class="contact-contact-card">
+                    <img src="https://thvnext.bing.com/th/id/OIP.m7ZPSPpA4dnG9V1gp2euOAHaDd?w=297&h=163&c=7&r=0&o=7&cb=12&dpr=1.5&pid=1.7&rm=3" alt="Bureau" class="contact-contact-image">
+                    <div class="contact-contact-details">
+                        <p class="contact-service-name">Direction Générale</p>
+                        <p class="contact-info">+237 53 20 50 59<br>+237 06 23 58 59</p>
+                        <p class="contact-location">Logbessou<br></p>
+                    </div>
+                    <button class="contact-contact-email-btn" aria-label="Envoyer un email"><i class="fas fa-envelope"></i></button>
+                </div>
+
+                <div class="contact-contact-card">
+                    <img src="https://thvnext.bing.com/th/id/OIP.1BGY3FSNb8l6qOzP5NQVBwHaEK?w=323&h=181&c=7&r=0&o=7&cb=12&dpr=1.5&pid=1.7&rm=3" alt="Bureau" class="contact-contact-image">
+                    <div class="contact-contact-details">
+                        <p class="contact-service-name">Scolarité</p>
+                        <p class="contact-info">Scolraitée & Affaires Academiaiques</p>
+                        <p class="contact-location">Logbessou<br></p>
+                    </div>
+                    <button class="contact-contact-email-btn" aria-label="Envoyer un email"><i class="fas fa-envelope"></i></button>
+                </div>
+
+                <div class="contact-contact-card">
+                    <img src="https://thvnext.bing.com/th/id/OIP.9slWON0f-PTqCo5EYYhHzQHaEV?w=257&h=180&c=7&r=0&o=7&cb=12&dpr=1.5&pid=1.7&rm=3" alt="Bureau" class="contact-contact-image">
+                    <div class="contact-contact-details">
+                        <p class="contact-service-name">Service Financier</p>
+                        <p class="contact-info">05 5503 50 80/98<br>00 163 58 578</p>
+                        <p class="contact-location">Logbessou<br></p>
+                    </div>
+                    <button class="contact-contact-email-btn" aria-label="Envoyer un email"><i class="fas fa-envelope"></i></button>
+                </div>
+
+            </section>
+            
+            <section class="contact-reclamation-column">
+                <h2>Soumettre une Réclamation</h2>
+                
+                <form class="contact-reclamation-form">
+                    <input type="text" placeholder="Nom Complet" required>
+                    <input type="email" placeholder="Matricule ou e-mail de l'etudiant" required>
+                    
+                    
+                    <textarea placeholder="Description Détaillée de la Réclamation" class="contact-description" rows="5" required></textarea>
+                    
+                    <div class="contact-file-upload-wrapper">
+                        <button type="button" class="contact-upload-btn"><i class="fas fa-upload"> Choisir un fichier </i></button>
+                    </div>
+
+                    <div class="contact-checkbox-container">
+                        <input type="checkbox" id="email-receipt">
+                        <label for="email-receipt">Recevoir un ticket de suivi par email</label>
+                    </div>
+                    
+                    <button type="submit" class="contact-submit-btn">Envoyer la Réclamation</button>
+                </form>
+            </section>
+            
+        </div>
+    </main>
+
+    <footer class="contact-footer">
+        <div class="contact-footer-columns">
+            <div>
+                <h4>À propos de IUC</h4>
+                <ul>
+                    <li><a href="#">Règlement intérieur</a></li>
+                    <li><a href="#">Intranete</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Services Étudiants</h4>
+                <ul>
+                    <li><a href="#">Intrante</a></li>
+                    <li><a href="#">Intrante</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Nous Suivre</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Mentions Légales</h4>
+                <ul>
+                    <li><a href="#">Politice de</a></li>
+                    <li><a href="#">Confdentilalité</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="contact-copyright">
+            &copy; 2024 IUC. Tous droits réservé
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

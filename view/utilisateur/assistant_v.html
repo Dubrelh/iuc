@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> IUC-Assistant </title>
+        <link rel="stylesheet" href="../../assets/CSC/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-container">
+            <img src="/assets/image/logo.png" alt="Logo IUC" class="logo">
+            <span class="slogan">Former l’homme dans toute sa globalité</span>
+        </div>
+        
+        <div class="search-profile">
+            <div class="search-bar">
+                <input type="text" placeholder="Rechercher">
+                <button aria-label="Rechercher"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="profile">
+                <img src="https://via.placeholder.com/30x30/7f8c8d/FFFFFF?text=A" alt="Avatar" class="avatar">
+            </div>
+            <button class="hamburger-menu" aria-label="Menu de navigation" style="display:none;"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <nav class="accueil-main-nav-bar">
+        <ul class="accueil-nav-links-list">
+            <li><a href="../../index.html">Accueil</a></li>
+            <li><a href="campus_v.html">Campus</a></li>
+            <li><a href="actualite_v.html" class="active">Actualités</a></li>
+            <li><a href="assistant_v.html">Assistant Virtuel</a></li>
+            <li><a href="conctact_v.html">Contacts</a></li>
+            <li><a href="#">S'orienter</a></li>
+        </ul>
+    </nav>
+
+    <main class="assistant-main">
+
+        <div>
+
+            <h2> Assistant virtuel </h2>
+
+            <div  style="border-radius: 10px; width: 100%; background-color: white;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+
+                <div style="background-color: rgba(0, 0, 0, 0.2); padding: 5px; border-radius: 5px;">
+                    <p>
+                        <h3> Que voulez-vous savoir </h3>
+                    </p>
+                    <div id="questions">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </main>
+
+
+    
+
+
+    <footer class="contact-footer">
+        <div class="contact-footer-columns">
+            <div>
+                <h4>À propos de IUC</h4>
+                <ul>
+                    <li><a href="#">Règlement intérieur</a></li>
+                    <li><a href="#">Intranete</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Services Étudiants</h4>
+                <ul>
+                    <li><a href="#">Intrante</a></li>
+                    <li><a href="#">Intrante</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Nous Suivre</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Mentions Légales</h4>
+                <ul>
+                    <li><a href="#">Politice de</a></li>
+                    <li><a href="#">Confdentilalité</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="contact-copyright">
+            &copy; 2024 IUC. Tous droits réservé
+        </div>
+    </footer>
+    
+</body>
+<script src="../controller/chatbot.js"></script>
+</html>
